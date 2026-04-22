@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun PantallaBienvenida(
-    nombreUsuario: String,
+    nombreUsuario: String = "Usuario",
     onContinuar: () -> Unit
 ) {
     Column(
