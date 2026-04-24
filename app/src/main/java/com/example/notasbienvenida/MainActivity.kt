@@ -12,20 +12,19 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-            var pantallaActual by remember { mutableStateOf("bienvenida") }
+            var pantallaActual by remember { mutableStateOf("login") }
 
             when (pantallaActual) {
 
-                "bienvenida" -> PantallaBienvenida(
-                    nombreUsuario = "Usuario",
-                    onContinuar = {
+                "login" -> LoginScreen(
+                    onLoginClick = { email, password ->
                         pantallaActual = "notas"
                     }
                 )
 
                 "notas" -> PantallaNotas(
                     onVolver = {
-                        pantallaActual = "bienvenida"
+                        pantallaActual = "login"
                     }
                 )
             }
