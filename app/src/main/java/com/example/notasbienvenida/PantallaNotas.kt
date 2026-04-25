@@ -15,7 +15,7 @@ fun PantallaNotas(
     var nota1 by remember { mutableStateOf("") }
     var nota2 by remember { mutableStateOf("") }
     var nota3 by remember { mutableStateOf("") }
-    var resultado by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.padding(16.dp)
@@ -25,54 +25,36 @@ fun PantallaNotas(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            value = nota1,
-            onValueChange = { nota1 = it },
-            label = { Text("Nota 1") }
-        )
-
-        OutlinedTextField(
-            value = nota2,
-            onValueChange = { nota2 = it },
-            label = { Text("Nota 2") }
-        )
-
-        OutlinedTextField(
-            value = nota3,
-            onValueChange = { nota3 = it },
-            label = { Text("Nota 3") }
-        )
+        OutlinedTextField(nota1, { nota1 = it }, label = { Text("Nota 1") })
+        OutlinedTextField(nota2, { nota2 = it }, label = { Text("Nota 2") })
+        OutlinedTextField(nota3, { nota3 = it }, label = { Text("Nota 3") })
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
+
             val n1 = nota1.toDoubleOrNull()
             val n2 = nota2.toDoubleOrNull()
             val n3 = nota3.toDoubleOrNull()
 
             if (n1 != null && n2 != null && n3 != null) {
                 val promedio = (n1 + n2 + n3) / 3
-
-                // Envía el promedio a la pantalla Resultado
                 onCalcularPromedio(promedio)
-
             } else {
-                resultado = "Ingrese valores válidos"
+                error = "Ingrese valores válidos"
             }
+
         }) {
             Text("Calcular")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = resultado,
-            color = MaterialTheme.colorScheme.error
-        )
+        if (error.isNotEmpty()) {
+            Text(error, color = MaterialTheme.colorScheme.error)
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = { onVolver() }) {
+        Button(onClick = onVolver) {
             Text("Volver")
         }
     }
