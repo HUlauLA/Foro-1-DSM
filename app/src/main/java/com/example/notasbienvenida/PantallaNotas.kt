@@ -5,10 +5,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
-fun PantallaNotas(onVolver: () -> Unit) {
+fun PantallaNotas(
+    onVolver: () -> Unit,
+    onCalcularPromedio: (Double) -> Unit
+) {
 
     var nota1 by remember { mutableStateOf("") }
     var nota2 by remember { mutableStateOf("") }
@@ -50,11 +52,10 @@ fun PantallaNotas(onVolver: () -> Unit) {
 
             if (n1 != null && n2 != null && n3 != null) {
                 val promedio = (n1 + n2 + n3) / 3
-                resultado = if (promedio >= 6) {
-                    "Promedio: %.2f - Aprobó".format(promedio)
-                } else {
-                    "Promedio: %.2f - Reprobó".format(promedio)
-                }
+
+                // Envía el promedio a la pantalla Resultado
+                onCalcularPromedio(promedio)
+
             } else {
                 resultado = "Ingrese valores válidos"
             }
@@ -64,22 +65,14 @@ fun PantallaNotas(onVolver: () -> Unit) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        //Text(resultado)
-        val colorResultado = when {
-            resultado.contains("Aprobó") -> androidx.compose.ui.graphics.Color(0xFF4CAF50)
-            resultado.contains("Reprobó") -> androidx.compose.ui.graphics.Color.Red
-            else -> androidx.compose.ui.graphics.Color.Black
-        }
-
         Text(
-            text=resultado,
-            fontSize = 20.sp,
-            color = colorResultado
+            text = resultado,
+            color = MaterialTheme.colorScheme.error
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {onVolver()}) {
+        Button(onClick = { onVolver() }) {
             Text("Volver")
         }
     }
