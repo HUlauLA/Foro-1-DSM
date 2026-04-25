@@ -1,49 +1,44 @@
-package com.example.notasbienvenida
+setContent {
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.runtime.*
+    var pantallaActual by remember { mutableStateOf("login") }
+    var promedioFinal by remember { mutableStateOf(0.0) }
+    var nombreUsuario by remember { mutableStateOf("") }
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    when (pantallaActual) {
 
-        setContent {
-
-            var pantallaActual by remember { mutableStateOf("bienvenida") }
-            var promedioFinal by remember { mutableStateOf(0.0) }
-
-            when (pantallaActual) {
-
-                "bienvenida" -> PantallaBienvenida(
-                    nombreUsuario = "Usuario",
-                    onContinuar = {
-                        pantallaActual = "notas"
-                    }
-                )
-
-                "notas" -> PantallaNotas(
-                    onVolver = {
-                        pantallaActual = "bienvenida"
-                    },
-                    onCalcularPromedio = { promedio ->
-                        promedioFinal = promedio
-                        pantallaActual = "resultado"
-                    }
-                )
-
-                "resultado" -> ResultScreen(
-                    promedio = promedioFinal,
-                    onReiniciar = {
-                        pantallaActual = "notas"
-                    },
-                    onSalir = {
-                        promedioFinal = 0.0
-                        pantallaActual = "bienvenida"
-                    }
-                )
+        "login" -> LoginScreen(
+            onLoginExitoso = { nombre ->
+                nombreUsuario = nombre
+                pantallaActual = "bienvenida"
             }
-        }
+        )
+
+        "bienvenida" -> PantallaBienvenida(
+            nombreUsuario = nombreUsuario,
+            onContinuar = {
+                pantallaActual = "notas"
+            }
+        )
+
+        "notas" -> PantallaNotas(
+            onVolver = {
+                pantallaActual = "bienvenida"
+            },
+            onCalcularPromedio = { promedio ->
+                promedioFinal = promedio
+                pantallaActual = "resultado"
+            }
+        )
+
+        "resultado" -> ResultScreen(
+            promedio = promedioFinal,
+            onReiniciar = {
+                pantallaActual = "notas"
+            },
+            onSalir = {
+                promedioFinal = 0.0
+                pantallaActual = "login"
+            }
+        )
     }
 }
