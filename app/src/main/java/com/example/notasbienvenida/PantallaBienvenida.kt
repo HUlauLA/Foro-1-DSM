@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 
-
+//prueba
 @Composable
 fun PantallaBienvenida(
     nombreUsuario: String,
